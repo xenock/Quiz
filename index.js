@@ -56,5 +56,5 @@ const question = {
 //     </div>
 //   `;
   
-  const $form = document.getElementsByTagName('form')[0]
-  $form.innerHTML = preguntaImpresa
+  const $form = document.getElementsByTagName('form')[0];
+  $form.innerHTML = preguntaImpresa;
