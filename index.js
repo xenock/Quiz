@@ -1,60 +1,64 @@
-// Paso 3: Extraer el objeto de la pregunta
 const question = {
-    title: "Que tipo de comedor eres?",
-    answers: [
-      'vegetariano',
-      'carnivoro',
-      'vegano',
-      'pescepescetariano'
-    ]
-  };
-  
-  const preguntasArray = (respuesta) => {
-    return `
+  title: "De que familia eres?",
+  answers: [
+    {label: 'Los rubios', id: 'lannister', name: 'got', value: 'lannister'},
+    {label: 'Los de la alfombra del IKEA', id: 'stark', name: 'got', value: 'stark'},
+    {label: 'Los follacabras', id: 'martell', name: 'got', value: 'martell'},
+    {label: 'Los pasaos por lejia', id: 'caminantes', name: 'got', value: 'caminantes'},
+  ]
+};
+
+const question2 = {
+  title: 'Que se come en Huerva?',
+  answers: [
+    {label: 'Choquito frito', id: 'choco', name: 'comida', value: 'choco'},
+    {label: 'Jamon 5J', id: 'jamon', name: 'comida', value: 'jamon'},
+    {label: 'Gambas blanca', id: 'gambas', name: 'comida', value: 'gambas'},
+  ]
+}
+
+const imprimeRespuesta = (respuesta) => {
+  const { id, label, name, value } = respuesta
+  return `
       <div>
-        <label for="${respuesta}">${respuesta}</label>
-        <input type="radio" id="${respuesta}" name="tipo">
+        <label for="${id}">${label}</label>
+        <input type="radio" id="${id}" name="${name}" value=${value}>
       </div>`;
-  }
-  
-  // Paso 4: Meter el objeto en la funcion e ir imprimiendo
-  const imprimePregunta = (pregunta) => {
-    const { title, answers } = pregunta;
-    
-    const tituloPregunta = `<p>${title}</p>`;
-    const respuestasArray = answers.map(preguntasArray)
-    
-    const respuestasPregunta = respuestasArray.join('');
-    
-    return tituloPregunta + respuestasPregunta;
-  }
+}
 
-  // Paso 2: Meter el html en una funcion y devolverlo
-  const preguntaImpresa = imprimePregunta(question);
+const botonFormulario = () => `<button>Enviar</button>`;
 
-  // Paso 1: Cortar texto y agregarlo dinamicamente
-//   const preguntaImpresa = `
-//     <p>Que tipo de comedor eres?</p>
-//     <div>
-//       <label for="vegano">vegano</label>
-//       <input type="radio" id="vegano" name="tipo">
-//     </div>
-  
-//     <div>
-//       <label for="carnivoro">Carnivoro</label>
-//       <input type="radio" id="carnivoro" name="tipo">
-//     </div>
-    
-//     <div>
-//       <label for="pescepescetarianos">pescepescetarianos</label>
-//       <input type="radio" id="pescepescetarianos" name="tipo">
-//     </div>
-    
-//     <div>
-//       <label for="vegetariano">vegetariano</label>
-//       <input type="radio" id="vegetariano" name="tipo">
-//     </div>
-//   `;
-  
-  const $form = document.getElementsByTagName('form')[0];
-  $form.innerHTML = preguntaImpresa;
+const tituloPregunta = (titulo) => `<p>${titulo}</p>`;
+
+const imprimePregunta = (pregunta) => {
+  const {
+    title,
+    answers
+  } = pregunta;
+
+  const respuestasArray = answers.map(imprimeRespuesta)
+
+  const respuestasPregunta = respuestasArray.join('');
+
+  const titulo = tituloPregunta(title);
+
+  return titulo + respuestasPregunta;
+}
+
+// const preguntaImpresa = imprimePregunta(question);
+const coleccion = [question, question2]
+const coleccionImpresa = coleccion.map(imprimePregunta).join('')
+
+const gestionaEnvio = (event) => {
+  event.preventDefault()
+
+  console.log($form.elements.got)
+  console.log($form.elements.comida)
+}
+
+const $form = document.getElementsByTagName('form')[0]
+const boton = botonFormulario();
+// $form.innerHTML = preguntaImpresa  + boton
+$form.innerHTML = coleccionImpresa  + boton
+
+$form.addEventListener('submit', gestionaEnvio)
